@@ -1,21 +1,16 @@
-import { asyncScheduler } from 'rxjs';
+import { range, fromEvent } from 'rxjs';
+import { map } from 'rxjs/operators'
+
+// range(1,5).pipe(
+//     map<number,string>(val => (val * 10).toString())
+// )
+// .subscribe( console.log );
 
 
-// setTimeout(() => {
-    
-// }, 3000);
+const keyup$ = fromEvent<KeyboardEvent>( document, 'keyup');
 
-// setInterval(() => {}, 3000)
+const keyupCode$ = keyup$.pipe(
+    map(event => event.code)
+)
 
-const saludar = () => console.log('hola mundo');
-const saludar2 = nombre => console.log(`Hola ${nombre}`);
-
-// asyncScheduler.schedule( saludar2, 2000)
-
-// asyncScheduler.schedule( saludar2, 2000, 'Jorge' )
-
-asyncScheduler.schedule( function(state) {
-    console.log('state', state);
-
-    this.schedule(state + 1);
-}, 3000, 0)
+keyupCode$.subscribe( code => console.log('map', code));
